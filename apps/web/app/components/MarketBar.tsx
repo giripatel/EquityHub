@@ -1,34 +1,66 @@
-import React from 'react'
-import { getDepth, getKlines, getMarkets } from '../utils/httpClient'
+import React, { useEffect, useState } from 'react'
+import { getDepth, getKlines, getMarkets, getTicker } from '../utils/httpClient'
 import Asks from './depth/AskTable';
 import Depth from './depth/Depth';
+import { Ticker as TickerType} from '../utils/types';
 
-const MarketBar = async () => {
+const MarketBar = async ({market}: { market: string }) => {
 
-  const {bids, asks, lastUpdateId} = await getDepth("SOL_USDC");
-  const kLines = await getKlines("SOL_USDC","1h",1720737000,1720843662);
-  const markets: string[] = await getMarkets();
+  const [ticker, setTicker] = useState<TickerType | null>(null);
+  useEffect(()=> {
+    (async () => {
+      const ticker = await getTicker(market);
+      setTicker(ticker)
+    })()
+  },[market])
   
-  return (
-    <div>
-      <div className='h-14 w-full bg-neutral-900 border-gray-800 border-[1px]'></div>
-      {bids.map(bid => {
-        return <div className='text-white'>
-          {bid}
+  return <div>
+  <div className="flex items-center flex-row relative w-full overflow-hidden border-b border-slate-800">
+      <div className="flex items-center justify-between flex-row no-scrollbar overflow-auto pr-4">
+              <Ticker market={market} />
+              <div className="flex items-center flex-row space-x-8 pl-4">
+                  <div className="flex flex-col h-full justify-center">
+                      <p className={`font-medium tabular-nums text-greenText text-md text-green-500`}>${ticker?.lastprice}</p>
+                      <p className="font-medium text-sm tabular-nums">${ticker?.lastprice}</p>
+                  </div>
+                  <div className="flex flex-col">
+                      <p className={`font-medium text-slate-400 text-sm`}>24H Change</p>
+                      <p className={` font-medium tabular-nums leading-5 text-sm text-greenText ${Number(ticker?.priceChange) > 0 ? "text-green-500" : "text-red-500"}`}>{Number(ticker?.priceChange) > 0 ? "+" : ""} {ticker?.priceChange} {Number(ticker?.priceChangePercent)?.toFixed(2)}%</p></div><div className="flex flex-col">
+                          <p className="font-medium text-slate-400 text-sm">24H High</p>
+                          <p className="font-medium tabular-nums leading-5 text-sm ">{ticker?.high}</p>
+                          </div>
+                          <div className="flex flex-col">
+                              <p className="font-medium text-slate-400 text-sm">24H Low</p>
+                              <p className="font-medium tabular-nums leading-5 text-sm ">{ticker?.low}</p>
+                          </div>
+                      <button type="button" className="font-medium transition-opacity hover:opacity-80 hover:cursor-pointer text-base text-left" data-rac="">
+                          <div className="flex flex-col">
+                              <p className="font-medium text-slate-400 text-sm">24H Volume</p>
+                              <p className="mt-1 font-medium tabular-nums leading-5 text-sm ">{ticker?.volume}
+                          </p>
+                      </div>
+                  </button>
+              </div>
           </div>
-      })}
-      {/* {markets.map((market) => {
-        const obj = JSON.parse(JSON.stringify(market))
-        return <div className='text-emerald-500'>
-          {{obj.baseSymbol} }
-          {obj.filters.price.tickSize}
-          {JSON.stringify(market)} 
-        </div>
-      })}  */}
-      {/* <Asks /> */}
-      <Depth />
-    </div>
-  )
+      </div>
+  </div>
 }
 
+function Ticker({market}: {market: string}) {
+  return <div className="flex h-[60px] shrink-0 space-x-4">
+      <div className="flex flex-row relative ml-2 -mr-4">
+          <img alt="SOL Logo" loading="lazy" decoding="async" data-nimg="1" className="z-10 rounded-full h-6 w-6 mt-4 outline-baseBackgroundL1"  src="/sol.webp" />
+          <img alt="USDC Logo" loading="lazy"decoding="async" data-nimg="1" className="h-6 w-6 -ml-2 mt-4 rounded-full" src="/usdc.webp" />
+      </div>
+  <button type="button" className="react-aria-Button" data-rac="">
+      <div className="flex items-center justify-between flex-row cursor-pointer rounded-lg p-3 hover:opacity-80">
+          <div className="flex items-center flex-row gap-2 undefined">
+              <div className="flex flex-row relative">
+                  <p className="font-medium text-sm undefined">{market.replace("_", " / ")}</p>
+              </div>
+          </div>
+      </div>
+  </button>
+  </div>
+}
 export default MarketBar
