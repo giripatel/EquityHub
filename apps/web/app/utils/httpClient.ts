@@ -4,7 +4,8 @@ import {Depth, Ticker, Trade, KLine} from './types'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function getDepth(market:string): Promise<Depth> {
-    const response = await axios.get(`${BASE_URL}/depth?symbol=${market}`)
+    // const response = await axios.get(`${BASE_URL}/depth?symbol=${market}`)
+    const response = await axios.get(`http://localhost:3000/api/v1/depth?symbol=${market}`)
     return response.data;
 }
 

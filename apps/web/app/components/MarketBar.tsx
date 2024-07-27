@@ -1,5 +1,7 @@
 import React from 'react'
 import { getDepth, getKlines, getMarkets } from '../utils/httpClient'
+import Asks from './depth/AskTable';
+import Depth from './depth/Depth';
 
 const MarketBar = async () => {
 
@@ -10,19 +12,21 @@ const MarketBar = async () => {
   return (
     <div>
       <div className='h-14 w-full bg-neutral-900 border-gray-800 border-[1px]'></div>
-      {/* {bids.map(bid => {
+      {bids.map(bid => {
         return <div className='text-white'>
           {bid}
           </div>
-      })} */}
-      {markets.map((market) => {
+      })}
+      {/* {markets.map((market) => {
         const obj = JSON.parse(JSON.stringify(market))
         return <div className='text-emerald-500'>
-          {/* {obj.baseSymbol} */}
+          {{obj.baseSymbol} }
           {obj.filters.price.tickSize}
-          {/* {JSON.stringify(market)}  */}
+          {JSON.stringify(market)} 
         </div>
-      })}
+      })}  */}
+      {/* <Asks /> */}
+      <Depth />
     </div>
   )
 }
