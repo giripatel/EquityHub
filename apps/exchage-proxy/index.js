@@ -7,8 +7,6 @@ dotenv.config();
 
 const PORT = 3000;
 
-app.use(cors())
-
 
 app.use((req, res, next) => {
     console.log("Reached middleware 1 : ");
