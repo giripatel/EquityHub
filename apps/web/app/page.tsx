@@ -1,14 +1,12 @@
-import Image from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
-import AppBar from "./components/AppBar";
-import MarketBar from "./components/MarketBar";
 
+import { Button } from "@repo/ui/button";
+import { redirect } from "next/navigation";
 export default function Home() {
+  
+  redirect('/markets')
   return (
     <>
-      <AppBar />
-      <MarketBar />
+      
     </>
   );
 }

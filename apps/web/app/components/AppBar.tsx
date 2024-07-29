@@ -2,11 +2,8 @@ import React from "react";
 
 const AppBar = () => {
 
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-console.log("URL from .env file: " + BASE_URL);
   return (
-    <div className="bg-neutral-900">
+    <div className="bg-[#0e0f14]">
       <div className="flex h-14 w-full flex-col justify-center pl-[21px] pr-4 ">
         <div className="flex flex-row justify-between">
           <div className="flex items-center flex-row">
@@ -24,8 +21,8 @@ console.log("URL from .env file: " + BASE_URL);
                 >
                   <g clip-path="url(#clip0_1_803)">
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M6.54201 1.25805C7.12356 1.25805 7.66905 1.33601 8.1741 1.48059C7.67963 0.328169 6.65297 0 5.51038 0C4.36555 0 3.3371 0.329459 2.84375 1.48738C3.3451 1.33771 3.88824 1.25805 4.4678 1.25805H6.54201ZM4.33478 2.41504C1.57335 2.41504 0 4.58743 0 7.2672V10.02C0 10.288 0.223858 10.5 0.5 10.5H10.5C10.7761 10.5 11 10.288 11 10.02V7.2672C11 4.58743 9.17041 2.41504 6.40899 2.41504H4.33478ZM5.49609 7.29102C6.46259 7.29102 7.24609 6.50751 7.24609 5.54102C7.24609 4.57452 6.46259 3.79102 5.49609 3.79102C4.5296 3.79102 3.74609 4.57452 3.74609 5.54102C3.74609 6.50751 4.5296 7.29102 5.49609 7.29102ZM0 12.118C0 11.8501 0.223858 11.6328 0.5 11.6328H10.5C10.7761 11.6328 11 11.8501 11 12.118V15.0293C11 15.5653 10.5523 15.9998 10 15.9998H1C0.447715 15.9998 0 15.5653 0 15.0293V12.118Z"
                       fill="#E33E3F"
                     ></path>
@@ -89,7 +86,7 @@ console.log("URL from .env file: " + BASE_URL);
             </div>
             <div className="ml-[20px] mr-[20px] flex flex-row items-center justify-center">
               <a
-                className="text-center text-gray-400 font-semibold rounded-lg focus:ring-blue-200 focus:none focus:outline-none hover:opacity-90 disabled:opacity-80 disabled:hover:opacity-80 flex flex-col justify-center bg-transparent h-8 text-sm p-0 text-baseTextHighEmphasis"
+                className="text-center text-gray-400 font-semibold rounded-lg focus:ring-blue-200 focus:none focus:outline-none hover:opacity-90 disabled:opacity-80 disabled:hover:opacity-80 flex flex-col justify-center bg-transparent h-8 text-sm p-0"
                 href="/trade/SOL_USDC"
               >
                 Trade
@@ -101,7 +98,6 @@ console.log("URL from .env file: " + BASE_URL);
                 aria-expanded="false"
                 id="react-aria3651155303-:r1:"
                 className="text-sm font-medium text-baseTextMedEmphasis hover:opacity-90"
-                data-rac=""
               >
                 <div className="flex text-gray-400 items-center flex-row gap-0.5">
                   More
@@ -112,9 +108,9 @@ console.log("URL from .env file: " + BASE_URL);
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="lucide lucide-chevron-down"
                   >
                     <path d="m6 9 6 6 6-6"></path>
@@ -124,7 +120,7 @@ console.log("URL from .env file: " + BASE_URL);
             </div>
             <div className="ml-[20px] mr-[20px] flex flex-row items-center justify-center">
               <div className="hidden lg:inline-flex">
-                <div className="flex bg-gray-700 items-center flex-row w-full flex-1 overflow-hidden rounded-xl bg-baseBackgroundL2 px-1 ring-0 focus-within:ring-2 focus-within:ring-accentBlue">
+                <div className="flex bg-gray-700 items-center flex-row w-full flex-1 overflow-hidden rounded-xl px-1 ring-0 focus-within:ring-2 focus-within:ring-accentBlue">
                   <div className="mx-2 ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -133,9 +129,9 @@ console.log("URL from .env file: " + BASE_URL);
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       className="lucide lucide-search h-4 w-4 text-baseIcon"
                     >
                       <circle cx="11" cy="11" r="8"></circle>
@@ -153,7 +149,7 @@ console.log("URL from .env file: " + BASE_URL);
                     aria-expanded="false"
                     autoCorrect="off"
                     spellCheck="false"
-                    className="h-8 w-[190px] border-0 bg-gray-700 bg-baseBackgroundL2 p-0 text-sm font-normal text-baseTextHighEmphasis placeholder-baseTextLowEmphasis outline-none focus:ring-0"
+                    className="h-8 w-[190px] border-0 bg-gray-700 p-0 text-sm font-normal outline-none focus:ring-0"
                     value=""
                   />
                 </div>
@@ -162,7 +158,7 @@ console.log("URL from .env file: " + BASE_URL);
           </div>
           <div className="flex flex-row">
             <a
-              className="my-auto ml-10 text-nowrap rounded-lg bg-[#4c94ff29] text-emerald-500  px-3 py-1.5 text-sm font-semibold text-greenText hover:opacity-90"
+              className="my-auto ml-10 text-nowrap rounded-lg bg-[#4c94ff29] text-emerald-500  px-3 py-1.5 text-sm font-semibold text hover:opacity-90"
               href="/signup"
             >
               Sign up

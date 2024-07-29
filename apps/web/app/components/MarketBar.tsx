@@ -1,17 +1,17 @@
+"use client"
 import React, { useEffect, useState } from 'react'
 import { getDepth, getKlines, getMarkets, getTicker } from '../utils/httpClient'
 import Asks from './depth/AskTable';
 import Depth from './depth/Depth';
 import { Ticker as TickerType} from '../utils/types';
 
-const MarketBar = async ({market}: { market: string }) => {
+const MarketBar = ({market}: { market: string }) => {
 
   const [ticker, setTicker] = useState<TickerType | null>(null);
   useEffect(()=> {
-    (async () => {
-      const ticker = await getTicker(market);
-      setTicker(ticker)
-    })()
+    getTicker(market)
+    .then(ticker => setTicker(ticker))
+    
   },[market])
   
   return <div>
@@ -20,8 +20,8 @@ const MarketBar = async ({market}: { market: string }) => {
               <Ticker market={market} />
               <div className="flex items-center flex-row space-x-8 pl-4">
                   <div className="flex flex-col h-full justify-center">
-                      <p className={`font-medium tabular-nums text-greenText text-md text-green-500`}>${ticker?.lastprice}</p>
-                      <p className="font-medium text-sm tabular-nums">${ticker?.lastprice}</p>
+                      <p className={`font-medium tabular-nums text-greenText text-md text-green-500`}>${ticker?.lastPrice}</p>
+                      <p className="font-medium text-sm tabular-nums">${ticker?.lastPrice}</p>
                   </div>
                   <div className="flex flex-col">
                       <p className={`font-medium text-slate-400 text-sm`}>24H Change</p>
@@ -56,7 +56,7 @@ function Ticker({market}: {market: string}) {
       <div className="flex items-center justify-between flex-row cursor-pointer rounded-lg p-3 hover:opacity-80">
           <div className="flex items-center flex-row gap-2 undefined">
               <div className="flex flex-row relative">
-                  <p className="font-medium text-sm undefined">{market.replace("_", " / ")}</p>
+                  <p className="font-medium text-white text-sm undefined">{market.replace("_", " / ")}</p>
               </div>
           </div>
       </div>

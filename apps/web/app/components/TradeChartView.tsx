@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useRef } from "react";
 import { ChartManager } from "../utils/ChartManager";
 import { KLine } from "../utils/types";
@@ -7,15 +8,15 @@ const TradeChartView = ({ market }: { market: string }) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartManagerRef = useRef<ChartManager>(null);
 
-  const init = async () => {
+  const init =  () => {
     let klineData: KLine[] = [];
     try {
-      klineData = await getKlines(
+      getKlines(
         market,
         "1h",
         Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24) / 1000),
         Math.floor(new Date().getTime() / 1000)
-      );
+      ).then(data=> klineData=data);
     } catch (e) {}
 
     if (chartRef) {

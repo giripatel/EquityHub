@@ -29,7 +29,7 @@ export interface Depth {
 export interface Ticker {
     "firstPrice": string,
     "high": string,
-    "lastprice": string,
+    "lastPrice": string,
     "low": string,
     "priceChange": string,
     "priceChangePercent": string,
