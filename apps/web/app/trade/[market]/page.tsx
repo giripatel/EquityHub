@@ -17,10 +17,10 @@ const page = () => {
     <div className='flex w-full bg-[#0e0f14]'>
       <div className='w-full'>
         <MarketBar market={market as string}/>
-        {/* <div className=' flex'> */}
+        <div className='flex w-[77rem] h-[620px]'>
           <TradeChartView market={market as string}/>
-          {/* <Depth market={market as string} /> */}
-        {/* </div> */}
+          <Depth market={market as string} />
+        </div>
       </div>
       <SwapUI market={market as string} />
     </div>

@@ -7,7 +7,7 @@ export function SwapUI({ market }: {market: string}) {
     const [type, setType] = useState('limit');
 
     return <div>
-        <div className="flex flex-col">
+        <div className="flex flex-col border-l-[1px] w-72 border-neutral-800 min-h-screen">
             <div className="flex flex-row h-[60px]">
                 <BuyButton activeTab={activeTab} setActiveTab={setActiveTab} />
                 <SellButton activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -76,11 +76,11 @@ export function SwapUI({ market }: {market: string}) {
                         <div className="flex flex-row gap-2">
                             <div className="flex items-center">
                                 <input className="form-checkbox rounded border border-solid border-baseBorderMed bg-base-950 font-light text-transparent shadow-none shadow-transparent outline-none ring-0 ring-transparent checked:border-baseBorderMed checked:bg-base-900 checked:hover:border-baseBorderMed focus:bg-base-900 focus:ring-0 focus:ring-offset-0 focus:checked:border-baseBorderMed cursor-pointer h-5 w-5" id="postOnly" type="checkbox" data-rac="" />
-                                <label className="ml-2 text-xs">Post Only</label>
+                                <label className="ml-2 text-xs text-white">Post Only</label>
                             </div>
                             <div className="flex items-center">
-                                <input className="form-checkbox rounded border border-solid border-baseBorderMed bg-base-950 font-light text-transparent shadow-none shadow-transparent outline-none ring-0 ring-transparent checked:border-baseBorderMed checked:bg-base-900 checked:hover:border-baseBorderMed focus:bg-base-900 focus:ring-0 focus:ring-offset-0 focus:checked:border-baseBorderMed cursor-pointer h-5 w-5" id="ioc" type="checkbox" data-rac="" />
-                                <label className="ml-2 text-xs">IOC</label>
+                                <input className="form-checkbox rounded border  border-solid border-baseBorderMed bg-base-950 font-light text-transparent shadow-none shadow-transparent outline-none ring-0 ring-transparent checked:border-baseBorderMed checked:bg-base-900 checked:hover:border-baseBorderMed focus:bg-base-900 focus:ring-0 focus:ring-offset-0 focus:checked:border-baseBorderMed cursor-pointer h-5 w-5" id="ioc" type="checkbox" data-rac="" />
+                                <label className="ml-2 text-xs text-white">IOC</label>
                             </div>
                         </div>
                 </div>

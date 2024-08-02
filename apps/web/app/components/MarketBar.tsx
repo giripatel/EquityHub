@@ -1,18 +1,40 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { getDepth, getKlines, getMarkets, getTicker } from '../utils/httpClient'
+// import { getDepth, getKlines, getMarkets, getTicker } from '../ut    ils/httpClient'
 import Asks from './depth/AskTable';
 import Depth from './depth/Depth';
 import { Ticker as TickerType} from '../utils/types';
+import { SignalingManager } from '../utils/SignalingManager';
+
 
 const MarketBar = ({market}: { market: string }) => {
 
   const [ticker, setTicker] = useState<TickerType | null>(null);
   useEffect(()=> {
-    getTicker(market)
-    .then(ticker => setTicker(ticker))
+    // getTicker(market)
+    // .then(ticker => setTicker(ticker))
+
+    SignalingManager.getInstance().registerCallback("ticker", (data: Partial<TickerType>) => setTicker(prev => ({
+    firstPrice: data.firstPrice ?? prev?.firstPrice ?? "",
+    high: data.high ?? prev?.high ?? "",
+    lastPrice: data.lastPrice ?? prev?.lastPrice ?? "",
+    low: data.low ?? prev?.low ?? "",
+    priceChange: data.priceChange ?? prev?.priceChange ?? "",
+    priceChangePercent: data.priceChangePercent ?? prev?.priceChangePercent ?? "",
+    quoteVolume: data.quoteVolume ?? prev?.quoteVolume ?? "",
+    symbol: data.symbol ?? prev?.symbol ?? "",
+    trades: data.trades ?? prev?.trades ?? "",
+    volume: data.volume ?? prev?.volume ?? ""
+    })), market)
     
-  },[market])
+    SignalingManager.getInstance().sendMessage(`{"method":"SUBSCRIBE","params":["ticker.${market}"],"id":1}`)
+console.log("Reaching h");
+
+    return () => {
+        SignalingManager.getInstance().deregisterCallback("ticker",market)
+        SignalingManager.getInstance().sendMessage(`{"method":"UNSUBSCRIBE","params":["ticker.${market}"],"id":4}`)
+    }
+  },[market])   
   
   return <div>
   <div className="flex items-center flex-row relative w-full overflow-hidden border-b border-slate-800">
@@ -21,22 +43,22 @@ const MarketBar = ({market}: { market: string }) => {
               <div className="flex items-center flex-row space-x-8 pl-4">
                   <div className="flex flex-col h-full justify-center">
                       <p className={`font-medium tabular-nums text-greenText text-md text-green-500`}>${ticker?.lastPrice}</p>
-                      <p className="font-medium text-sm tabular-nums">${ticker?.lastPrice}</p>
+                      <p className="font-medium text-white text-sm tabular-nums">${ticker?.lastPrice}</p>
                   </div>
                   <div className="flex flex-col">
                       <p className={`font-medium text-slate-400 text-sm`}>24H Change</p>
                       <p className={` font-medium tabular-nums leading-5 text-sm text-greenText ${Number(ticker?.priceChange) > 0 ? "text-green-500" : "text-red-500"}`}>{Number(ticker?.priceChange) > 0 ? "+" : ""} {ticker?.priceChange} {Number(ticker?.priceChangePercent)?.toFixed(2)}%</p></div><div className="flex flex-col">
                           <p className="font-medium text-slate-400 text-sm">24H High</p>
-                          <p className="font-medium tabular-nums leading-5 text-sm ">{ticker?.high}</p>
+                          <p className="font-medium tabular-nums leading-5 text-white text-sm ">{ticker?.high}</p>
                           </div>
                           <div className="flex flex-col">
                               <p className="font-medium text-slate-400 text-sm">24H Low</p>
-                              <p className="font-medium tabular-nums leading-5 text-sm ">{ticker?.low}</p>
+                              <p className="font-medium tabular-nums leading-5 text-white text-sm ">{ticker?.low}</p>
                           </div>
                       <button type="button" className="font-medium transition-opacity hover:opacity-80 hover:cursor-pointer text-base text-left" data-rac="">
                           <div className="flex flex-col">
                               <p className="font-medium text-slate-400 text-sm">24H Volume</p>
-                              <p className="mt-1 font-medium tabular-nums leading-5 text-sm ">{ticker?.volume}
+                              <p className="mt-1 font-medium tabular-nums text-white leading-5 text-sm ">{(Number(ticker?.volume) || 0).toLocaleString()}
                           </p>
                       </div>
                   </button>

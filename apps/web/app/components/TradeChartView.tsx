@@ -48,7 +48,7 @@ const TradeChartView = ({ market }: { market: string }) => {
     init();
   },[market,chartRef]);
 
-  return <div>
+  return <div className="w-[920px]">
     <div ref={chartRef} style={{ height: "520px", width: "100%", marginTop: 4 }}></div>
   </div>;
 };
