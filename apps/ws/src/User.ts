@@ -6,26 +6,11 @@ import { SubscriptionManager } from "./SubscriptionManager";
 export class User {
     id: string;
     socket: WebSocket;
-    subscribed: string[] =[];
 
     constructor(id: string, socket: WebSocket){
         this.id = id,
         this.socket = socket
-    }
-
-    getSubscription(){
-        return this.subscribed;
-    }
-
-    public subscribe(event: string){
-        this.subscribed.push(event);
-    }
-
-    public unscubscribe(event: string){
-        const isSubcribed =  this.subscribed.includes(event);
-        if(isSubcribed){
-            this.subscribed = this.subscribed.filter(s => s === event);
-        }
+        this.adddListener()
     }
 
     emit(message: OutgoingMessage) {
