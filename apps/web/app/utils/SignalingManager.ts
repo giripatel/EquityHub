@@ -1,6 +1,7 @@
 import { Depth, Ticker } from "./types";
 
-const BASE_URL = "wss://ws.backpack.exchange/"
+// const BASE_URL = "wss://ws.backpack.exchange/"
+const BASE_URL = "ws://localhost:8080"
 
 export class SignalingManager {
 
@@ -28,25 +29,16 @@ export class SignalingManager {
     init(){
         this.ws.onopen = () => {
             this.initialized = true;
-            console.log("Web Socket is open");
             
             this.bufferedMessages.map(message => {
-                console.log("From buffered");
-                console.log(message);
-                
-                // console.log(JSON.stringify(message));
                 
                 this.ws.send(message)
             })
             this.bufferedMessages = []
         }
         this.ws.onmessage = (event) => {
-            console.log(event);
-            
             const message = JSON.parse(event.data);
             const type = message.data.e;
-            // console.log(type)
-            
             if (this.callbacks[type]) {
                 this.callbacks[type].map(({callback}) => {
                     if (type === "ticker") {

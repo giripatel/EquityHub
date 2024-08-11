@@ -3,8 +3,8 @@ import { UserManager } from './UserManager';
 
 export class SubscriptionManager {
     private static instance: SubscriptionManager;
-    private subscriptions: Map<string,string[]> = new Map();
-    private reverseSubscriptions: Map<string,string[]> = new Map();
+    subscriptions: Map<string,string[]> = new Map();
+    reverseSubscriptions: Map<string,string[]> = new Map();
     private redisClient: RedisClientType;
 
     private constructor() {
@@ -41,10 +41,11 @@ export class SubscriptionManager {
         }
 
         this.subscriptions.set(userId, (this.subscriptions.get(userId) || []).concat(subscription));
-        this.reverseSubscriptions.set(subscription, (this.reverseSubscriptions.get(subscription) || []).concat())
-
-        if(this.reverseSubscriptions.get(subscription)?.length === 1){
+        this.reverseSubscriptions.set(subscription, (this.reverseSubscriptions.get(subscription) || []).concat(userId))
+        
+        if(this.reverseSubscriptions.get(subscription)?.length === 1){            
             this.redisClient.subscribe(subscription, this.eventHandler);
+            
         }
 
     }
@@ -64,6 +65,7 @@ export class SubscriptionManager {
         this.subscriptions.get(userId)?.forEach(s => this.unsubscribe(userId, s))
     }
     eventHandler(channel: string, message: string){
+        
         const parsedMessage = JSON.parse(message);
         this.reverseSubscriptions.get(channel)?.forEach(user => {
             UserManager.getInstance().getUser(user)?.emit(parsedMessage);

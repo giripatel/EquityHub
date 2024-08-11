@@ -30,7 +30,7 @@ export class RedisManager {
            this.clinet.unsubscribe(id)
            resolve(JSON.parse(message));
         })
-        this.publisher.lPush("messages", JSON.stringify(message));
+        this.publisher.lPush("messages", JSON.stringify({clientId: id,message}));
       })
   }
 }

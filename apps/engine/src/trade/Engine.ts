@@ -17,9 +17,9 @@ export class Engine {
   constructor() {
     let snapshot = null;
     try {
-      snapshot = fs.readFileSync("./snapshot.json", { encoding: "utf-8" });
+      snapshot = fs.readFileSync("./    .json", { encoding: "utf-8" });
     } catch {
-      throw new Error("Snap shot not found");
+      console.log("Snap shot not found");
     }
 
     if (snapshot) {
@@ -36,7 +36,7 @@ export class Engine {
       );
       this.balances = new Map(snapShotData.balances);
     } else {
-      this.orderbooks = [new Orderbook("JIO", [], [], 0, 0)];
+      this.orderbooks = [new Orderbook("TATA", [], [], 0, 0)];
       this.setBaseBalances();
     }
 
@@ -59,7 +59,7 @@ export class Engine {
         case CREATE_ORDER: 
             try {
                 const {executedQty, fills, orderId} = this.createOrder(message.data.market,message.data.price,message.data.quantity,message.data.side,message.data.userId);
-
+                
                 RedisManager.getInstance().publishToAPI(clientId,{
                     type: "ORDER_PLACED",
                     payload: {
@@ -200,13 +200,13 @@ export class Engine {
     const orderbook = this.orderbooks.find((o) => market === o.ticker());
     const baseAsset = market.split("_")[0];
     const quoteAsset = market.split("_")[0];
-
+    
     if (!orderbook) {
       throw new Error("Market not found");
     }
 
     this.checkAndLockFunds(userId,Number(quantity),baseAsset,quoteAsset,Number(price),side);
-
+    
     const randmonOrderId = Math.random().toString(36).substring(2,15) + Math.random().toString(36).substring(2,15);
     const order: Order = {
         price: Number(price),
@@ -218,12 +218,12 @@ export class Engine {
     }
     
     const {executedQty, fills} = orderbook.addOrder(order);
-
-    this.updateBalance(userId, baseAsset, quoteAsset, side, fills,  executedQty);
+    
+    // this.updateBalance(userId, baseAsset, quoteAsset, side, fills,  executedQty);
     this.publishWsTrades(fills,userId,market);
     this.publishWsDepthUpdates(fills, price, side, market);
-    this.createDbTrades(fills, market, userId);
-    this.updateDbOrders(market,executedQty,fills,order)
+    // this.createDbTrades(fills, market, userId);
+    // this.updateDbOrders(market,executedQty,fills,order)
     return { 
         executedQty, 
         fills,
@@ -347,7 +347,7 @@ export class Engine {
     
       
       if (side === "buy") {
-            fills.forEach(fill => {
+            fills?.forEach(fill => {
             
                 //@ts-ignore
                 this.balances.get(fill.otherUserId)[quoteAsset].available = this.balances.get(fill.otherUserId)[quoteAsset].available + (fill.quantity * fill.price);
@@ -359,6 +359,7 @@ export class Engine {
                 this.balances.get(userId)[baseAsset].available = this.balances.get(userId)[baseAsset].available + (fill.quantity * fill.price);
             })
         } else {
+            fills?.forEach(fill => {
                  //@ts-ignore
                 this.balances.get(fill.otherUserId)[quoteAsset].available = this.balances.get(fill.otherUserId)[quoteAsset].available - (fill.quantity * fill.price);
                 //@ts-ignore
@@ -367,7 +368,7 @@ export class Engine {
                 this.balances.get(fill.markerOrdereId)[baseAsset].available = this.balances.get(fill.otherUserId)[baseAsset].locked - (fill.quantity * fill.price);
                 //@ts-ignore
                 this.balances.get(userId)[baseAsset].available = this.balances.get(userId)[baseAsset].available + (fill.quantity * fill.price);
-            
+            })
         }
   }
 
@@ -408,5 +409,38 @@ export class Engine {
     }
   }
 
-  setBaseBalances() {}
+  setBaseBalances() {
+    this.balances.set("1", {
+        [BASE_CURRENCY]: {
+            available: 10000000,
+            locked: 0
+        },
+        "TATA": {
+            available: 10000000,
+            locked: 0
+        }
+    });
+
+    this.balances.set("2", {
+        [BASE_CURRENCY]: {
+            available: 10000000,
+            locked: 0
+        },
+        "TATA": {
+            available: 10000000,
+            locked: 0
+        }
+    });
+
+    this.balances.set("3", {
+        [BASE_CURRENCY]: {
+            available: 10000000,
+            locked: 0
+        },
+        "TATA": {
+            available: 10000000,
+            locked: 0
+        }
+    });
+}
 }

@@ -1,17 +1,13 @@
 
 const AskTable = ({ asks }: { asks: [string,string][] }) => {
-  console.log("========================================== ASKS ===============================");
-  
+
   let currentTotal = 0;
   const relevantAsks = asks.slice(0, 15);
-  console.log(relevantAsks);
   
   relevantAsks.reverse();
   let asksWithTotal: [string, string, number][] = relevantAsks.map(([price, quantity]) => [price, quantity, currentTotal += Number(quantity)]);
   const maxTotal = relevantAsks.reduce((acc, [_, quatity]) => acc += Number(quatity),0);
   asksWithTotal.reverse()
-
-  console.log("ASKS Table 1 enter");
   
   return (
     <div className=' text-lg h-72 flex justify-end flex-col'>

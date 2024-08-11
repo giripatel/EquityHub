@@ -1,9 +1,6 @@
 import React from 'react'
 
 const BidTable = ({bids}: {bids: [string, string][]}) => {
-    console.log("========================================== Bids ===============================");
-    
-    // console.log(bids);
     
     let cuurentTotal = 0;
     const relevantBids = bids.slice(0,15);

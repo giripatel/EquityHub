@@ -28,7 +28,6 @@ const MarketBar = ({market}: { market: string }) => {
     })), market)
     
     SignalingManager.getInstance().sendMessage(`{"method":"SUBSCRIBE","params":["ticker.${market}"],"id":1}`)
-console.log("Reaching h");
 
     return () => {
         SignalingManager.getInstance().deregisterCallback("ticker",market)

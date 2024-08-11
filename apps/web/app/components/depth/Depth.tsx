@@ -48,11 +48,11 @@ const Depth = ({ market }:{market: string}) => {
             setBids(prev => [...prev,bid])
           })
         }, market)
-        SignalingManager.getInstance().sendMessage(`{"method":"SUBSCRIBE","params":["depth.200ms.${market}"],"id":3}`);
+        SignalingManager.getInstance().sendMessage(`{"method":"SUBSCRIBE","params":["depth@${market}"],"id":3}`);
 
         return () => {
         SignalingManager.getInstance().deregisterCallback("depth",market)
-        SignalingManager.getInstance().sendMessage(`{"method":"UNSUBSCRIBE","params":["depth.200ms.${market}"],"id":3}`)
+        SignalingManager.getInstance().sendMessage(`{"method":"UNSUBSCRIBE","params":["depth@${market}"],"id":3}`)
 
         }
     },[])

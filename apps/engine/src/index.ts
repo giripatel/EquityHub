@@ -9,9 +9,13 @@ async function main() {
 
     while(true){
 
-        const message = await client.rPop("message" as string);
-        if (message) {
-            engine.process(JSON.parse(message))
+        const response = await client.rPop("messages" as string);
+        if (!response) {
+
+        } else {
+            engine.process(JSON.parse(response))
         }
     }
 }
+
+main()

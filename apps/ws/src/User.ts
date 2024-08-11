@@ -19,8 +19,10 @@ export class User {
 
     private adddListener(){
         this.socket.on("message", (event: string) => {
+            
             const message: IncomingMessage = JSON.parse(event);
             if (message.method === SUBSCRIBE) {
+                
                 message.params.forEach(s => SubscriptionManager.getInstance().subscribe(this.id,s));
             } else {
                 message.params.forEach(s => SubscriptionManager.getInstance().unsubscribe(this.id,s))

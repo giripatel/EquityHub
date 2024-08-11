@@ -3,11 +3,11 @@ import { createProxyMiddleware } from 'http-proxy-middleware'
 import dotenv from 'dotenv';
 import cors from 'cors'
 const app = express();
-dotenv.config();
+// dotenv.config();
 
 const PORT = 3000;
-
-
+app.use(express.json())
+app.use(cors())
 app.use((req, res, next) => {
     console.log("Reached middleware 1 : ");
     res.header('Access-Control-Allow-Origin', '*');
@@ -25,14 +25,16 @@ app.use((req, res, next) => {
 app.use('/', createProxyMiddleware({
     target: "https://api.backpack.exchange",
     changeOrigin: true,
-    onProxyReq: (proxyReq, req, res) => {
-        console.log(req)
-    },
-    onProxyRes: (proxyRes, req, res) => {
+    forward:true
+    // onProxyReq: (proxyReq, req, res) => {
+    //     console.log(req)
+    // },
+    // onProxyRes: (proxyRes, req, res) => {
 
-    }
+    // 
     
 }))
+
 
 app.listen(PORT, () => {
     console.log(`Sserver running on http://localhost:${PORT}`);

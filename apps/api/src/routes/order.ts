@@ -6,6 +6,7 @@ export const orderRoute = Router();
 
 orderRoute.post("/", async (req: Request, res: Response) => {
   const { market, price, quantity, side, userId } = req.body;
+  console.log(market, price, quantity, side, userId);
   
   const response = await RedisManager.getInstance().sendMessage({
     type: CREATE_ORDER,

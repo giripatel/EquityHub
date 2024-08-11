@@ -18,6 +18,7 @@ export class RedisManager{
     }
 
     public publishToAPI(clinetId: string, message: any){
+        
         this.client.publish(clinetId, JSON.stringify(message))
     }
     
